@@ -46,7 +46,7 @@ export ACCESS_TOKEN=$TOKEN
 #!/bin/bash
 
 # Define the URL to fetch the JSON from
-URL="https://hackattic.com/challenges/dockerized_solutions/problem?access_token=$TOKEN$"
+URL="https://hackattic.com/challenges/dockerized_solutions/problem?access_token=$TOKEN"
 
 # Use curl to fetch the JSON data and store it in a variable
 JSON=$(curl -s "$URL")
@@ -210,7 +210,7 @@ Create a `submit.sh` script:
 #!/bin/bash
 
 # Your access token
-ACCESS_TOKEN="$TOKEN$"
+ACCESS_TOKEN="$TOKEN"
 # Extracted secret key from container logs
 SECRET_KEY="SECRET
 # Endpoint URL
