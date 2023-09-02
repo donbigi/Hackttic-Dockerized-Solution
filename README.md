@@ -172,11 +172,11 @@ Start registry
 docker start local-registry
 ```
 
-# Alternatively, Use Ansible to automate creating the Local Registry
+## Alternatively, Use Ansible to automate creating the Local Registry
   - [Provision resources on GCP with Terraform](terraform/README.md)
   - [Creating an Ansible Playbook to create the Local Docker Registry](ansible/README.md)
 
-# Continue
+## Continue
 
 Trigger the Push
 ```bash
