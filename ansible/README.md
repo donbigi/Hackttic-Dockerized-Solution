@@ -12,7 +12,7 @@ Before using this playbook, ensure you have the following prerequisites in place
 ## Usage
 
 1. Clone this repository to your local machine: ```git clone https://github.com/donbigi/Hackttic-Dockerized-Solution.git`
-2. Modify [Dynamic Inventry](ansible/inventory/README.md) to specify your remote host(s).
+2. Modify [Dynamic Inventry](inventory) to specify your remote host(s).
 3. First install docker in your server or run the `install_docker.yaml` playbook
 3. Update the playbook as needed (e.g., change the paths, URLs, or Docker Registry configurations) in the `install_docker_registry.yaml` file.
 4. Run the playbook using the following command: `ansible-playbook install_docker_registry.yaml`
