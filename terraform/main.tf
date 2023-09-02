@@ -49,19 +49,3 @@ resource "google_compute_instance" "my_instance" {
     }
   }
 }
-
-# Create an Ubuntu LTS 20.04 instance for node-1 without a static IP
-resource "google_compute_instance" "node-1" {
-  name         = "node-1" # Replace with your desired VM instance name
-  machine_type = "n1-standard-1" # Replace with your desired machine type
-
-  boot_disk {
-    initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2004-lts" # Ubuntu LTS 20.04 image
-    }
-  }
-
-  network_interface {
-    network = "default" # Replace with your desired network name
-  }
-}
