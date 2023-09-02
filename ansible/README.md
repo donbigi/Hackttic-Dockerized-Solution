@@ -6,7 +6,7 @@ Before using this playbook, ensure you have the following prerequisites in place
 
 1. [Create VM in GCP, Configure firewall rule and add static IP](terraform/README.md)
 2. Create a Service Account
-3. [Create Dynamic Inventory using Google Cloud](ansible/inventory/README.md) 
+3. [Create Dynamic Inventory using Google Cloud](ansible/inventory) 
 4. An access token from your desired source (in this example, we use "https://hackattic.com/challenges/dockerized_solutions"). 
 5. SSL certificates for your domain (domain.cert and domain.key) placed in the specified folder.
 ## Usage
