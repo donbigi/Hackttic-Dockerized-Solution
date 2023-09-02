@@ -176,6 +176,7 @@ docker start local-registry
   - [Provision resources on GCP with Terraform](terraform/README.md)
   - [Creating an Ansible Playbook to create the Local Docker Registry](ansible/README.md)
 
+# Continue
 
 Trigger the Push
 ```bash
