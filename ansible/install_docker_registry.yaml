@@ -4,6 +4,36 @@
   become: yes
   gather_facts: no
   tasks:
+    - name: Create certificate storage folders
+      file:
+        path: /home/$USER/test/certs
+        state: directory
+
+    - name: Copy certificates
+      ansible.builtin.copy:
+        src: "/Users/$USER/CERT_DIR/"
+        dest: "/home/$USER/test/certs/"
+
+    - name: Create Docker cert directory
+      file:
+        path: /etc/docker/certs.d/$DOMAIN_NAME:443
+        state: directory
+
+    - name: Copy SSL certificates
+      ansible.builtin.copy:
+        src: /home/$USER/test/certs/
+        dest: /etc/docker/certs.d/$DOMAIN_NAME:443/
+        remote_src: yes
+
+    - name: Restart Docker
+      systemd:
+        name: docker
+        state: restarted
+    
+    - name: Create Authentication folder
+      file:
+        path: /home/$USER/test/auth
+        state: directory
     - name: Install jq
       apt:
         name: jq
@@ -58,21 +88,6 @@
         TOKEN: "{{ script_output.stdout_lines[3].split('=')[1] }}"
       when: script_output.rc == 0  # Only set variables if the script ran successfully
 
-    - name: Create certificate storage folders
-      file:
-        path: /home/$USER/test/certs
-        state: directory
-
-    - name: Copy certificates
-      ansible.builtin.copy:
-        src: "/Users/$USER/CERT_DIR/"
-        dest: "/home/$USER/test/certs/"
-
-    - name: Create Authentication folder
-      file:
-        path: /home/$USER/test/auth
-        state: directory
-
     - name: Install Apache package (including htpasswd)
       apt:
         name: apache2-utils  # This might vary based on your OS
@@ -89,22 +104,6 @@
         content: "{{ htpasswd_output.stdout }}"
         dest: /home/$USER/test/auth/htpasswd
         mode: '0644'
-
-    - name: Create Docker cert directory
-      file:
-        path: /etc/docker/certs.d/$DOMAIN_NAME:443
-        state: directory
-
-    - name: Copy SSL certificates
-      ansible.builtin.copy:
-        src: /home/$USER/test/certs/
-        dest: /etc/docker/certs.d/$DOMAIN_NAME:443/
-        remote_src: yes
-
-    - name: Restart Docker
-      systemd:
-        name: docker
-        state: restarted
 
     - name: Start Docker Registry Container
       docker_container:
