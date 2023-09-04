@@ -4,8 +4,8 @@ The problem we will be solving can be found at [Hackattic Website](https://hacka
 
 
 ## Prerequisite
-Create 2 VMs :
-- registry-server and node-1
+Create 2 VMs or ! Vm and use your local machine to access the the local registry server:
+- name VM registry-server and node-1
 - configure firewall rule for registry-server
 - Map IP address of registry-server to domain name
 - Generate SSL certificate with the domain name
@@ -29,6 +29,36 @@ registry-server will host the docker registry
     - Submit the solution by sending a POST request to `/challenges/dockerized_solutions/solve`, including the secret key returned by the container in the JSON payload.
 
 # **Setup:** 
+
+### Folder Setup and HTTPS Support (TLS)
+
+**Create Certificate Storage Folders**
+
+```bash
+# create folders
+mkdir test
+cd test
+mkdir auth
+mkdir certs
+cd certs
+
+# copy your certs here
+gcloud compute scp LOCATION_OF_FILES_TO_BE_SENT/* VM_NAME:HOMEDIR/test/certs/ --zone=$ZONE
+```
+
+### Docker Registry Setup
+
+**Configure Docker for Certificate Usage**
+```bash
+cd ..
+sudo mkdir -p /etc/docker/certs.d/$IP:443
+sudo cp certs/domain.crt /etc/docker/certs.d/$IP:443/
+sudo cp certs/domain.cert /etc/docker/certs.d/$IP:443/
+sudo cp certs/domain.key /etc/docker/certs.d/$IP:443/
+sudo cp certs/SubCA.crt /etc/docker/certs.d/$IP:443/
+sudo cp certs/Root_RSA_CA.crt /etc/docker/certs.d/$IP:443/
+sudo systemctl restart docker
+```
 
 ### Retrieve JSON Variables
 Create a `retrieve_json.sh` script:
@@ -89,41 +119,10 @@ Ensure variables are accessible:
 echo $USERNAME echo $PASSWORD echo $IGNITION_KEY echo $TOKEN echo $ACCESS_TOKEN
 ```
 
-
-### Folder Setup and HTTPS Support (TLS)
-
-**Create Certificate Storage Folders**
-
-```bash
-# create folders
-mkdir test
-cd test
-mkdir certs
-cd certs
-
-# copy your certs here
-gcloud compute scp LOCATION_OF_FILES_TO_BE_SENT/* VM_NAME:HOMEDIR/test/certs/ --zone=$ZONE
-```
-
  **Configure Authentication**
 ```bash
 ## username and password:
-mkdir auth
 htpasswd -Bbn $USERNAME $PASSWORD > auth/htpasswd
-```
-
-### Docker Registry Setup
-
-**Configure Docker for Certificate Usage**
-```bash
-cd ..
-sudo mkdir -p /etc/docker/certs.d/$IP:443
-sudo cp certs/domain.crt /etc/docker/certs.d/$IP:443/
-sudo cp certs/domain.cert /etc/docker/certs.d/$IP:443/
-sudo cp certs/domain.key /etc/docker/certs.d/$IP:443/
-sudo cp certs/SubCA.crt /etc/docker/certs.d/$IP:443/
-sudo cp certs/Root_RSA_CA.crt /etc/docker/certs.d/$IP:443/
-sudo systemctl restart docker
 ```
 
 **Create and Configure Docker Registry**
