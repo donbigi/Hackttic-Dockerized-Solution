@@ -148,7 +148,7 @@ docker run -d -p 443:443 --name=local-registry --restart=always \
 Ensure login to the registry:
 
 ```bash
-docker login -u $USERNAME -p $PASSWORD uche.xyz:443
+docker login -u $USERNAME -p $PASSWORD $IP:443
 ```
 
 Check registry reachability:
